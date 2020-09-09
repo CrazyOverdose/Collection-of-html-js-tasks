@@ -1,12 +1,12 @@
 <HTML>
 <BODY>
-	<canvas
-		width='1500' height='700' id='lab02'>
-	</canvas>
+	
+<canvas width='1500' height='700' id='lab02'>
+</canvas>
 
 <script>
-	var canvas = document.getElementById('lab02'),
-	context = canvas.getContext('2d');
+	var canvas = document.getElementById('lab02');
+	var ctx = canvas.getContext('2d');
 
 	let img = new Image;
 	img.crossOrigin = 'Anonymous';
@@ -14,8 +14,8 @@
 
 	img.onload = function() {
 
-	context.drawImage(img, 0, 0, img.width, img.height);
-	let img_data = context.getImageData(0,0, img.width, img.height);
+	ctx.drawImage(img, 0, 0, img.width, img.height);
+	let img_data = ctx.getImageData(0,0, img.width, img.height);
 	var red, green, blue, greyscale;
 
 	for (var i = 0; i < img_data.data.length; i += 4) {
@@ -29,7 +29,7 @@
 		img_data.data[i + 2] = greyscale;
 	}
 
-	context.putImageData(img_data, img.width + 50, 0);
+	ctx.putImageData(img_data, img.width + 50, 0);
 	};
 
 </script>
