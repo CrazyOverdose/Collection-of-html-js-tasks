@@ -14,19 +14,19 @@
 
 	img.onload = function() {
 
-	context.drawImage(img, 0, 0);
+	context.drawImage(img, 0, 0, img.width, img.height);
 	let img_data = context.getImageData(0,0, img.width, img.height);
 	var red, green, blue, greyscale;
 
 	for (var i = 0; i < img_data.data.length; i += 4) {
-	red = img_data.data[i]; // красная компонента
-	green = img_data.data[i + 1]; // зеленая компонента
-	blue = img_data.data[i + 2]; // синяя компонента
-	greyscale = ( red + green + blue ) / 3;
+		red = img_data.data[i]; // красная компонента
+		green = img_data.data[i + 1]; // зеленая компонента
+		blue = img_data.data[i + 2]; // синяя компонента
+		greyscale = ( red + green + blue ) / 3;
 
-	img_data.data[i] = greyscale; // перекрашивание каждой компоненты
-	img_data.data[i + 1] = greyscale;
-	img_data.data[i + 2] = greyscale;
+		img_data.data[i] = greyscale; // перекрашивание каждой компоненты
+		img_data.data[i + 1] = greyscale;
+		img_data.data[i + 2] = greyscale;
 	}
 
 	context.putImageData(img_data, img.width + 50, 0);
