@@ -15,6 +15,7 @@ function Line(x0, y0, x1, y1) {
    	while (!((x0==x1) && (y0==y1))) {
 		ctx.fillStyle = "#8A2BE2";
     		ctx.fillRect(x0,y0,pw,pw);
+		
     		var err2 = 2*err;
 
     		if (err2 > -dy){
