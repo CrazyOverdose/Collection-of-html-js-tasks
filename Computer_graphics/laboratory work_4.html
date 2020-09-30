@@ -1,0 +1,80 @@
+<HTML>
+<BODY>
+ 
+    <canvas width="1500" height="700" id='lab-04'>
+    </canvas>
+ 
+<script> 
+	var canvas = document.getElementById('lab-04');
+    	var ctx = canvas.getContext('2d');
+	let img = new Image;
+	img.crossOrigin = 'Anonymous';
+	img.src = 'https://otvet.imgsmail.ru/download/246789350_c7dbe5bcc35c37c9ef9bcc65886e2dfd_800.png';
+
+img.onload = function() {
+
+    	ctx.drawImage(img, 0, 0, img.width, img.height);
+    	var imageData = ctx.getImageData(0, 0, img.width, img.height);
+
+        var data = imageData.data;
+
+	draw(imageData, 500);
+
+	for (var g = 0; g < 40; g++){
+
+		for (var i = 0, len= data.length; i < len; i++) {
+			if (i % 4 === 3) {continue;}
+
+			data[i] = ( data[i] 
+				+ (data[i - 4] || data[i])
+				+ (data[i + 4] || data[i]) 
+				+ (data[i - 4 * data.width] || data[i])
+				+ (data[i + 4 * data.width] || data[i]) 
+				+ (data[i - 4 * data.width - 4] || data[i])
+				+ (data[i + 4 * data.width + 4] || data[i])
+				+ (data[i + 4 * data.width - 4] || data[i])
+				+ (data[i - 4 * data.width + 4] || data[i])
+				)/9;
+		};
+	}
+
+	draw(imageData, 1000);
+
+	function draw(imageData, count)
+	{ 		
+		let imageData2= new ImageData(imageData.width,imageData.height);
+
+                for (var y = 1; y < imageData.height - 1; y++) {
+                    for (var x = 1; x < imageData.width-1 ; x++) {
+                        let p_x =  (imageData.data[((y + 1)*imageData.width + x - 1)*4]
+				+ 2*(imageData.data[((y + 1)*imageData.width + x)*4])
+				+ imageData.data[((y + 1)*imageData.width + x + 1)*4])
+				- (imageData.data[((y - 1)*imageData.width + x - 1)*4]
+				+ 2*(imageData.data[((y - 1)*imageData.width + x)*4])
+				+ imageData.data[((y - 1)*imageData.width + x + 1)*4]);
+                                  
+                        let p_y = (imageData.data[((y - 1)*imageData.width + x + 1)*4]
+				+ 2 * (imageData.data[((y)    *imageData.width + x + 1)*4])
+				+ imageData.data[((y + 1)*imageData.width + x + 1)*4])
+				- (imageData.data[((y - 1)*imageData.width + x - 1)*4]
+				+ 2 * (imageData.data[((y)    *imageData.width + x - 1)*4])
+				+ imageData.data[((y + 1)*imageData.width + x - 1)*4]);
+
+                        let p = Math.sqrt(p_x*p_x + p_y*p_y);
+
+                        imageData2.data[(y*imageData.width+x)*4] = p;
+                        imageData2.data[(y*imageData.width+x)*4 + 1] = p;
+                        imageData2.data[(y*imageData.width+x)*4 + 2] = p;
+                        imageData2.data[(y*imageData.width+x)*4 + 3] = 255;
+							
+                    }
+                }
+
+                ctx.putImageData(imageData2, count, 0);
+	}
+}
+        
+</script>
+
+</BODY>
+</HTML>
