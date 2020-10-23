@@ -228,60 +228,60 @@ class Polygon
                                     			p = ctx.getImageData(X_min-1,CurrentPoint.y, 1, 1).data;
                                 		}
                                 
-                            		let X_max = CurrentPoint.x;
-                            		p = ctx.getImageData(X_max + 1, CurrentPoint.y, 1, 1).data;
-                            		while((CurrentColor[0]==p[0])&&(CurrentColor[1]==p[1])&&
-                            		(CurrentColor[2]==p[2])&&(CurrentColor[3]==p[3]))
-                                	{
-                                    		++X_max;
-                                    		p = ctx.getImageData(X_max + 1, CurrentPoint.y, 1, 1).data;
-                                	}
+                            			let X_max = CurrentPoint.x;
+                            			p = ctx.getImageData(X_max + 1, CurrentPoint.y, 1, 1).data;
+                            			while((CurrentColor[0]==p[0])&&(CurrentColor[1]==p[1])&&
+                            			(CurrentColor[2]==p[2])&&(CurrentColor[3]==p[3]))
+                                		{
+                                    			++X_max;
+                                    			p = ctx.getImageData(X_max + 1, CurrentPoint.y, 1, 1).data;
+                                		}
                                 
-                            		ctx.fillStyle = "#C71585";
-                            		Draw_Line(X_min,CurrentPoint.y,X_max,CurrentPoint.y); 
-                            		ctx.fillStyle = "#000000";
+                            			ctx.fillStyle = "#C71585";
+                            			Draw_Line(X_min,CurrentPoint.y,X_max,CurrentPoint.y); 
+                            			ctx.fillStyle = "#000000";
                             
-                            		let flag = true;
+                            			let flag = true;
 
-                            		for(let x = X_min;x <= X_max;++x)
-                                	{
-                                    		p = ctx.getImageData(x, CurrentPoint.y-1, 1, 1).data;
+                            			for(let x = X_min;x <= X_max;++x)
+                                		{
+                                    			p = ctx.getImageData(x, CurrentPoint.y-1, 1, 1).data;
 
-                                    		if((CurrentColor[0] == p[0]) && (CurrentColor[1] == p[1]) &&
-                                    		(CurrentColor[2] == p[2]) && (CurrentColor[3] == p[3]))
-                                        	{
-                                            		if(flag)
-                                                	{
-                                                    		stack.push(new Point(x,CurrentPoint.y-1));
-                                                    		flag = !flag;
-                                                	}
-                                        	}
-                                    		else 
-                                        		flag = true;
-                                	}
+                                    			if((CurrentColor[0] == p[0]) && (CurrentColor[1] == p[1]) &&
+                                    			(CurrentColor[2] == p[2]) && (CurrentColor[3] == p[3]))
+                                        		{
+                                            			if(flag)
+                                                		{
+                                                    			stack.push(new Point(x,CurrentPoint.y-1));
+                                                    			flag = !flag;
+                                                		}
+                                        		}
+                                    			else 
+                                        			flag = true;
+                                		}
 
-                            		flag = true; 
+                            			flag = true; 
 
-                            		for(let x = X_min;x <= X_max;++x)
-                                	{
-                                    		p = ctx.getImageData(x, CurrentPoint.y+1, 1, 1).data;
+                            			for(let x = X_min;x <= X_max;++x)
+                                		{
+                                    			p = ctx.getImageData(x, CurrentPoint.y+1, 1, 1).data;
 
-                                    		if((CurrentColor[0] == p[0]) && (CurrentColor[1] == p[1]) &&
-                                    		(CurrentColor[2] == p[2]) && (CurrentColor[3] == p[3]))
-                                        	{
-                                            		if(flag)
-                                                	{
-                                                    		stack.push(new Point(x, CurrentPoint.y+1));
-                                                    		flag = !flag;
-                                                	}
-                                        	}
-                                    		else 
-                                        		flag = true;
-                                	}
-                        	}
+                                    			if((CurrentColor[0] == p[0]) && (CurrentColor[1] == p[1]) &&
+                                    			(CurrentColor[2] == p[2]) && (CurrentColor[3] == p[3]))
+                                        		{
+                                            			if(flag)
+                                                		{
+                                                    			stack.push(new Point(x, CurrentPoint.y+1));
+                                                    			flag = !flag;
+                                                		}
+                                        		}
+                                    			else 
+                                        			flag = true;
+                                		}
+                        		}
 				
-                }
-	});				
+                		}
+		});				
 </script>
 </body>
 </html>
