@@ -21,7 +21,7 @@ function Draw_Line(x0,y0,x1,y1, color) {
 	let dmax = Math.max(dx,dy);
 	let dmin = Math.min(dx,dy);
                 
-   var xdir = (x0 < x1) ? 1 : -1;
+   	var xdir = (x0 < x1) ? 1 : -1;
    	var ydir = (y0 < y1) ? 1 : -1;
 
 	let eps = 0; 
@@ -68,7 +68,7 @@ function Draw_Line(x0,y0,x1,y1, color) {
 		pushPoints(40, 40, 350, 350, 0, 1);
         flag = false;
         }
-    });
+    	});
     
 function fillArea(color) {
 	
@@ -118,7 +118,7 @@ function closePoly(){
 	for(var j = 0; j < points.length - 1; j++){
 		Draw_Line(points[j].x, points[j].y, points[j + 1].x, points[j + 1].y, "#000000")
 	}
-    var col = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+    	var col = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
 	fillArea(col);
     
 	while(points.length != 0 || lines.length != 0){ // а то происходит переполнение памяти
@@ -131,7 +131,7 @@ function pushPoints(width, height, center_x, center_y, x, y){
 	for(var i = 0; i < diamond.e.length; i++){
 		for(var j = 0; j < diamond.e[i].length; j++){
 			points.push({ x: center_x + width * diamond.v[diamond.e[i][j] - 1][x], 
-            y: center_y + height * diamond.v[diamond.e[i][j] - 1][y]});
+            			      y: center_y + height * diamond.v[diamond.e[i][j] - 1][y]});
 		}
 		closePoly();
 	}
