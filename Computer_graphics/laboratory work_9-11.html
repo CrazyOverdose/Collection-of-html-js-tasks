@@ -15,23 +15,23 @@ canvas.addEventListener("click",function(event) {
 
 class Point2d {
 	x = 0.0;
-    y = 0.0;
+    	y = 0.0;
         
 	constructor(x, y){
-			this.x = x;
-			this.y = y;
+		this.x = x;
+		this.y = y;
 	}
 }
 
 class Point3d {
 	x = 0.0;
-    y = 0.0;
-    z = 0.0;
+    	y = 0.0;
+    	z = 0.0;
         
 	constructor(x, y, z){
-			this.x = x;
-			this.y = y;
-               this.z = z;
+		this.x = x;
+		this.y = y;
+               	this.z = z;
 	}
 }
 
@@ -68,33 +68,32 @@ function fillArea(points, color) {
 
 	var yarray = [];	
     
-	for (let i=0; i<points.length; i++) {
-    
+	for (let i=0; i<points.length; i++) {    
 		var c = 0;
-         
+		
 		if (i!=points.length - 1) 
         	c = i + 1;
             
-        var d = i, f = c;  
+        	var d = i, f = c;  
 
 		if (points[i].y < points[c].y)
-            [d, f] = [f, d];
+            		[d, f] = [f, d];
             
-        else if (points[i].y === points[c].y) 
-        	continue;
+        	else if (points[i].y === points[c].y) 
+        		continue;
 
 		if (points[d].x === points[f].x) {
 			for (var j=points[f].y; j<points[d].y; ++j) {
 				if (typeof yarray[j] === 'undefined') 
-                	yarray[j] = [];
+                			yarray[j] = [];
 				yarray[j].push(points[f].x);
 			}
 		}  else {	
-            for (var j=points[f].y; j<points[d].y; ++j) {
-            	if (typeof yarray[j] === 'undefined') 
-                	yarray[j] = [];
+            		for (var j=points[f].y; j<points[d].y; ++j) {
+            			if (typeof yarray[j] === 'undefined') 
+                			yarray[j] = [];
 				yarray[j].push(((j - points[f].y)*(points[d].x - points[f].x))
-                /(points[d].y - points[f].y) + points[f].x);
+                			/(points[d].y - points[f].y) + points[f].x);
 			}
 		}
 
@@ -110,9 +109,9 @@ function fillArea(points, color) {
 		for (var j = 0; j<xarray.length/2; ++j) {
 			for (var x = xarray[j*2]; x < xarray[j*2+1]; ++x) {
             
-            	for (var i = 0; i < 160000; ++i){} // скорость вращения
+            			for (var i = 0; i < 160000; ++i){} // скорость вращения
                 
-            	ctx.fillStyle = color;
+            			ctx.fillStyle = color;
 				ctx.fillRect(Math.floor(x), y, 1, 1);
 
 			}
@@ -123,7 +122,7 @@ function fillArea(points, color) {
 function drawing(){
 	ctx.clearRect(0, 0, 1500, 700);
     
-    alpha  = (alpha + 0.0001 > 0.2) ? 0.1 : (alpha + 0.0001);
+    	alpha  = (alpha + 0.0001 > 0.2) ? 0.1 : (alpha + 0.0001);
 
 	for (var i = 0; i < diamond_v.length; ++i){
 		
@@ -143,9 +142,9 @@ function drawing(){
 	var color_g = 250;
 	var color_b = 154;
 	var color = "#00FA9A";
-    var points;
+    	var points;
                     
-for (var i = 0; i < diamond_f.length; ++i) {		
+	for (var i = 0; i < diamond_f.length; ++i) {		
 		points = [];
 		var PointA = new Point3d (
         	diamond_v[diamond_f[i][0] - 1].x - diamond_v[diamond_f[i][1] - 1].x, 
@@ -159,11 +158,11 @@ for (var i = 0; i < diamond_f.length; ++i) {
 
 		for (var j=0; j < diamond_f[i].length; ++j) {
 			points.push(new Point2d(7*diamond_v[diamond_f[i][j] - 1].y + 100, 
-								  7*diamond_v[diamond_f[i][j] - 1].z + 150));
+					7*diamond_v[diamond_f[i][j] - 1].z + 150));
 		}
 
 		var PointC = new Point3d (0, 
-        PointB.x*PointA.z - PointB.z*PointA.x/PointB.y*PointA.x - PointB.x*PointA.y, 1);
+        		PointB.x*PointA.z - PointB.z*PointA.x/PointB.y*PointA.x - PointB.x*PointA.y, 1);
 		PointC.x = -1*(PointA.z + PointC.y*PointA.y)/PointA.x;
 
 
