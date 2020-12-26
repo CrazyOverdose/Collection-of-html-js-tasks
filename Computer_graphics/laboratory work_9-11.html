@@ -1,0 +1,205 @@
+<HTML>
+<BODY>
+
+<canvas width='1500' height='700' id='lab9-11'>
+</canvas>
+
+<script>
+
+var canvas = document.getElementById("lab9-11");
+var ctx = canvas.getContext("2d");
+
+canvas.addEventListener("click",function(event) {
+	requestAnimationFrame(drawing);
+});
+
+class Point2d {
+	x = 0.0;
+    y = 0.0;
+        
+	constructor(x, y){
+			this.x = x;
+			this.y = y;
+	}
+}
+
+class Point3d {
+	x = 0.0;
+    y = 0.0;
+    z = 0.0;
+        
+	constructor(x, y, z){
+			this.x = x;
+			this.y = y;
+               this.z = z;
+	}
+}
+
+var light = new Point3d (45, 45, 78);
+var alpha = 0.1;
+
+function MultiplyMatrix(a, b) {
+  var aNumRows = a.length, aNumCols = a[0].length,
+      bNumRows = b.length, bNumCols = b[0].length,
+      result = new Array(aNumRows);  
+      
+  for (var r = 0; r < aNumRows; ++r) {
+    result[r] = new Array(bNumCols); 
+    for (var c = 0; c < bNumCols; ++c) {
+      result[r][c] = 0;            
+      for (var i = 0; i < aNumCols; ++i) {
+        result[r][c] += a[r][i] * b[i][c];
+      }
+    }
+  }
+  return result;
+}
+
+function fillArea(points, color) {
+	var minY = points[0].y;
+	var maxY = points[0].y;
+	for (var i = 0; i < points.length; ++i) {
+		var temp = points[i].y;
+		if (points[i].y < minY)
+				minY = points[i].y;
+		else if (points[i].y > maxY)
+				maxY = points[i].y;
+	}
+
+	var yarray = [];	
+    
+	for (let i=0; i<points.length; i++) {
+    
+		var c = 0;
+         
+		if (i!=points.length - 1) 
+        	c = i + 1;
+            
+        var d = i, f = c;  
+
+		if (points[i].y < points[c].y)
+            [d, f] = [f, d];
+            
+        else if (points[i].y === points[c].y) 
+        	continue;
+
+		if (points[d].x === points[f].x) {
+			for (var j=points[f].y; j<points[d].y; ++j) {
+				if (typeof yarray[j] === 'undefined') 
+                	yarray[j] = [];
+				yarray[j].push(points[f].x);
+			}
+		}  else {	
+            for (var j=points[f].y; j<points[d].y; ++j) {
+            	if (typeof yarray[j] === 'undefined') 
+                	yarray[j] = [];
+				yarray[j].push(((j - points[f].y)*(points[d].x - points[f].x))
+                /(points[d].y - points[f].y) + points[f].x);
+			}
+		}
+
+	}
+	for (var y=minY; y<maxY; ++y) {
+		if (typeof(yarray[y]) === "undefined") 
+        	yarray[y] = []; 
+            
+		var xarray = yarray[y].sort(function(a, b) {
+  				return a - b;
+		});
+        
+		for (var j = 0; j<xarray.length/2; ++j) {
+			for (var x = xarray[j*2]; x < xarray[j*2+1]; ++x) {
+            
+            	for (var i = 0; i < 160000; ++i){} // скорость вращения
+                
+            	ctx.fillStyle = color;
+				ctx.fillRect(Math.floor(x), y, 1, 1);
+
+			}
+		}	
+	}
+}
+
+function drawing(){
+	ctx.clearRect(0, 0, 1500, 700);
+    
+    alpha  = (alpha + 0.0001 > 0.2) ? 0.1 : (alpha + 0.0001);
+
+	for (var i = 0; i < diamond_v.length; ++i){
+		
+		var newM = MultiplyMatrix([
+			[Math.cos(alpha), 0, Math.sin(alpha)],
+			[0,1,0],
+			[-1 * Math.sin(alpha), 0, Math.cos(alpha)]
+		], [[diamond_v[i].x],[diamond_v[i].y],[diamond_v[i].z]]);
+		
+		diamond_v[i].x = newM[0][0];
+		diamond_v[i].y = newM[1][0];
+		diamond_v[i].z = newM[2][0];
+	}
+	
+	var fill_color_percent = 0.25;
+	var color_r = 0;
+	var color_g = 250;
+	var color_b = 154;
+	var color = "#00FA9A";
+    var points;
+                    
+for (var i = 0; i < diamond_f.length; ++i) {		
+		points = [];
+		var PointA = new Point3d (
+        	diamond_v[diamond_f[i][0] - 1].x - diamond_v[diamond_f[i][1] - 1].x, 
+			diamond_v[diamond_f[i][0] - 1].y - diamond_v[diamond_f[i][1] - 1].y,
+			diamond_v[diamond_f[i][0] - 1].z - diamond_v[diamond_f[i][1] - 1].z);
+            
+		var PointB = new Point3d (
+        	diamond_v[diamond_f[i][2] - 1].x - diamond_v[diamond_f[i][1] - 1].x, 
+			diamond_v[diamond_f[i][2] - 1].y - diamond_v[diamond_f[i][1] - 1].y,
+			diamond_v[diamond_f[i][2] - 1].z - diamond_v[diamond_f[i][1] - 1].z);
+
+		for (var j=0; j < diamond_f[i].length; ++j) {
+			points.push(new Point2d(7*diamond_v[diamond_f[i][j] - 1].y + 100, 
+								  7*diamond_v[diamond_f[i][j] - 1].z + 150));
+		}
+
+		var PointC = new Point3d (0, 
+        PointB.x*PointA.z - PointB.z*PointA.x/PointB.y*PointA.x - PointB.x*PointA.y, 1);
+		PointC.x = -1*(PointA.z + PointC.y*PointA.y)/PointA.x;
+
+
+		var PointD = new Point3d (light.x - diamond_v[diamond_f[i][1] - 1].x,
+				  light.y - diamond_v[diamond_f[i][1] - 1].y,
+				  light.z - diamond_v[diamond_f[i][1] - 1].z);
+
+		var cosa = (PointC.x*PointD.x + PointC.y*PointD.y + PointC.z*PointD.z)/
+					Math.sqrt(PointC.x*PointC.x + PointC.y*PointC.y + PointC.z*PointC.z)/
+					Math.sqrt(PointD.x*PointD.x + PointD.y*PointD.y + PointD.z*PointD.z) < 0 ? 
+                    0 : (PointC.x*PointD.x + PointC.y*PointD.y + PointC.z*PointD.z)/
+					Math.sqrt(PointC.x*PointC.x + PointC.y*PointC.y + PointC.z*PointC.z)/
+					Math.sqrt(PointD.x*PointD.x + PointD.y*PointD.y + PointD.z*PointD.z);	
+    
+		var new_g = 187.5*cosa+62.5;
+		var new_b = 115.5*cosa+38.5;
+		
+		fillArea(points, "rgb(" + 0 + "," + new_g +"," + new_b +")");		
+	}
+	requestAnimationFrame(drawing)
+}
+
+var diamond_v =  [
+	{x:7.00, y:7.00, z:7.00},
+	{x:14.00, y:7.00, z:7.00},
+	{x:7.00, y:14.00, z:7.00},
+	{x:7.00, y:7.00, z:14.00},
+ ];
+    
+var diamond_f = [
+    [ 1, 3, 2],
+	[ 1, 4, 3],
+	[ 1, 2, 4],
+	[2, 3, 4],
+];
+</script>
+
+</BODY>
+</HTML>
