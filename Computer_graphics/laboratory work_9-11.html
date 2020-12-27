@@ -124,17 +124,17 @@ function drawing(){
     
     	alpha  = (alpha + 0.0001 > 0.2) ? 0.1 : (alpha + 0.0001);
 
-	for (var i = 0; i < diamond_v.length; ++i){
+	for (var i = 0; i < pyramid_v.length; ++i){
 		
 		var newM = MultiplyMatrix([
 			[Math.cos(alpha), 0, Math.sin(alpha)],
 			[0,1,0],
 			[-1 * Math.sin(alpha), 0, Math.cos(alpha)]
-		], [[diamond_v[i].x],[diamond_v[i].y],[diamond_v[i].z]]);
+		], [[pyramid_v[i].x],[pyramid_v[i].y],[pyramid_v[i].z]]);
 		
-		diamond_v[i].x = newM[0][0];
-		diamond_v[i].y = newM[1][0];
-		diamond_v[i].z = newM[2][0];
+		pyramid_v[i].x = newM[0][0];
+		pyramid_v[i].y = newM[1][0];
+		pyramid_v[i].z = newM[2][0];
 	}
 	
 	var fill_color_percent = 0.25;
@@ -144,21 +144,21 @@ function drawing(){
 	var color = "#00FA9A";
     	var points;
                     
-	for (var i = 0; i < diamond_f.length; ++i) {		
+	for (var i = 0; i < pyramid_f.length; ++i) {		
 		points = [];
 		var PointA = new Point3d (
-        	diamond_v[diamond_f[i][0] - 1].x - diamond_v[diamond_f[i][1] - 1].x, 
-			diamond_v[diamond_f[i][0] - 1].y - diamond_v[diamond_f[i][1] - 1].y,
-			diamond_v[diamond_f[i][0] - 1].z - diamond_v[diamond_f[i][1] - 1].z);
+        	pyramid_v[pyramid_f[i][0] - 1].x - pyramid_v[pyramid_f[i][1] - 1].x, 
+			pyramid_v[pyramid_f[i][0] - 1].y - pyramid_v[pyramid_f[i][1] - 1].y,
+			pyramid_v[pyramid_f[i][0] - 1].z - pyramid_v[pyramid_f[i][1] - 1].z);
             
 		var PointB = new Point3d (
-        	diamond_v[diamond_f[i][2] - 1].x - diamond_v[diamond_f[i][1] - 1].x, 
-			diamond_v[diamond_f[i][2] - 1].y - diamond_v[diamond_f[i][1] - 1].y,
-			diamond_v[diamond_f[i][2] - 1].z - diamond_v[diamond_f[i][1] - 1].z);
+        	pyramid_v[pyramid_f[i][2] - 1].x - pyramid_v[pyramid_f[i][1] - 1].x, 
+			pyramid_v[pyramid_f[i][2] - 1].y - pyramid_v[pyramid_f[i][1] - 1].y,
+			pyramid_v[pyramid_f[i][2] - 1].z - pyramid_v[pyramid_f[i][1] - 1].z);
 
-		for (var j=0; j < diamond_f[i].length; ++j) {
-			points.push(new Point2d(7*diamond_v[diamond_f[i][j] - 1].y + 100, 
-					7*diamond_v[diamond_f[i][j] - 1].z + 150));
+		for (var j=0; j < pyramid_f[i].length; ++j) {
+			points.push(new Point2d(7*pyramid_v[pyramid_f[i][j] - 1].y + 100, 
+					7*pyramid_v[pyramid_f[i][j] - 1].z + 150));
 		}
 
 		var PointC = new Point3d (0, 
@@ -166,9 +166,9 @@ function drawing(){
 		PointC.x = -1*(PointA.z + PointC.y*PointA.y)/PointA.x;
 
 
-		var PointD = new Point3d (light.x - diamond_v[diamond_f[i][1] - 1].x,
-				  light.y - diamond_v[diamond_f[i][1] - 1].y,
-				  light.z - diamond_v[diamond_f[i][1] - 1].z);
+		var PointD = new Point3d (light.x - pyramid_v[pyramid_f[i][1] - 1].x,
+				  light.y - pyramid_v[pyramid_f[i][1] - 1].y,
+				  light.z - pyramid_v[pyramid_f[i][1] - 1].z);
 
 		var cosa = (PointC.x*PointD.x + PointC.y*PointD.y + PointC.z*PointD.z)/
 					Math.sqrt(PointC.x*PointC.x + PointC.y*PointC.y + PointC.z*PointC.z)/
@@ -185,14 +185,14 @@ function drawing(){
 	requestAnimationFrame(drawing)
 }
 
-var diamond_v =  [
+var pyramid_v =  [
 	{x:7.00, y:7.00, z:7.00},
 	{x:14.00, y:7.00, z:7.00},
 	{x:7.00, y:14.00, z:7.00},
 	{x:7.00, y:7.00, z:14.00},
  ];
     
-var diamond_f = [
+var pyramid_f = [
     [ 1, 3, 2],
 	[ 1, 4, 3],
 	[ 1, 2, 4],
